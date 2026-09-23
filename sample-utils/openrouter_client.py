@@ -1,25 +1,23 @@
 #!/usr/bin/env python3
 """
-openrouter_client.py — helper para generar imágenes con IA vía OpenRouter (PRIORIDAD 3).
+openrouter_client.py — small client for image generation via the OpenRouter API.
 
-Modelo: google/gemini-3.1-flash-image-preview  (Nano Banana 2).
+Model: google/gemini-3.1-flash-image-preview.
 
-Esqueleto FUNCIONAL. El formato EXACTO de la respuesta de imagen puede variar; el
-código intenta extraer la imagen de las formas más comunes (base64 en el mensaje o
-URL). Ajusta `_extract_image()` si la respuesta real difiere; consulta la doc de
-OpenRouter para el modelo concreto.
+The exact shape of the image response can vary between providers/models; this code
+tries to extract the image from the most common response shapes (base64-encoded in
+the message, or a URL). Adjust `_extract_image()` if a given model's response format
+differs — check OpenRouter's docs for that specific model.
 
-🔴 Recuerda: la generación con IA es el ÚLTIMO RECURSO. Toda imagen generada DEBE
-verificarse con visión antes de aceptarse (lo hace el agente curador-visual). Este
-script solo genera; la verificación/bucle la conduce Claude.
+Generated images should be reviewed before being used in production.
 
-Uso:
-    python scripts/openrouter_client.py "prompt de la imagen" videos/<slug>/assets/s7_imagen.png
+Usage:
+    python openrouter_client.py "image prompt" output/path/image.png
 
-Como librería:
+As a library:
     from openrouter_client import generar_imagen
-    ruta = generar_imagen("operario con arnés en cubierta industrial, foto realista",
-                          "videos/<slug>/assets/s7_imagen.png")
+    path = generar_imagen("a photorealistic warehouse worker wearing a harness",
+                           "output/path/image.png")
 """
 from __future__ import annotations
 
@@ -85,8 +83,7 @@ def generar_imagen(prompt: str, dest: str | Path) -> Path:
     dest = Path(dest)
     dest.parent.mkdir(parents=True, exist_ok=True)
     dest.write_bytes(img_bytes)
-    print(f"[ok] imagen generada -> {dest}")
-    print("     👁  Verifícala con visión antes de aceptarla (curador-visual).")
+    print(f"[ok] image generated -> {dest}")
     return dest
 
 

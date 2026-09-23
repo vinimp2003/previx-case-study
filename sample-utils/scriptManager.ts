@@ -1,7 +1,11 @@
 // Script Manager for Cookie Consent
 // This file handles loading and managing third-party scripts based on user consent
 
-import { CookieConfig } from '../config/cookieConfig';
+export interface CookieConfig {
+  analyticsId?: string;
+  facebookPixelId?: string;
+  googleAdsId?: string;
+}
 
 // Global script state
 let analyticsLoaded = false;

@@ -1,11 +1,6 @@
 """
-_common.py — utilidades compartidas por los scripts de Previx Videos.
-
-No es un script ejecutable: lo importan los demás (generar-manifiesto,
-indexar-banco-empresa, previsualizacion, *_client, etc.).
-
-Decisión de lenguaje: TODO el tooling del proyecto está en Python 3 por su buen
-soporte de HTTP (requests), manejo de imágenes (Pillow) y wrapping de ffmpeg.
+_common.py — small shared helpers (env loading, JSON I/O) used across the project's
+Python scripts. Not meant to be run directly.
 """
 from __future__ import annotations
 
@@ -13,27 +8,26 @@ import json
 import os
 from pathlib import Path
 
-# Raíz del proyecto = carpeta padre de scripts/
 ROOT = Path(__file__).resolve().parent.parent
 
 
 def load_env() -> None:
-    """Carga .env (si existe y python-dotenv está instalado). Silencioso si no."""
+    """Loads a .env file if present and python-dotenv is installed; silent otherwise."""
     try:
         from dotenv import load_dotenv  # type: ignore
         load_dotenv(ROOT / ".env")
     except Exception:
-        # Sin dotenv, se usan las variables de entorno que ya haya en el sistema.
+        # Without dotenv, fall back to whatever environment variables are already set.
         pass
 
 
 def env(name: str, required: bool = False, default: str | None = None) -> str | None:
-    """Lee una variable de entorno. Si required y falta, lanza un error claro."""
+    """Reads an environment variable, raising a clear error if required and missing."""
     val = os.environ.get(name, default)
     if required and not val:
         raise SystemExit(
-            f"[ERROR] Falta la variable de entorno '{name}'. "
-            f"Añádela a tu .env (copia .env.example)."
+            f"[ERROR] Missing environment variable '{name}'. "
+            f"Add it to your .env (copy .env.example)."
         )
     return val
 
@@ -48,4 +42,4 @@ def write_json(path: str | Path, data: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
-    print(f"[ok] escrito {path}")
+    print(f"[ok] wrote {path}")

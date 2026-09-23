@@ -1,5 +1,7 @@
 # Previx — Case Study
 
+![Previx landing/login](screenshots/00_cover_login.png)
+
 Previx is a multi-tenant SaaS platform for occupational risk-prevention (health & safety)
 training. Companies enroll their workforce, each employee completes video-based courses and
 exams for their specific job role, and at the end they sign a legally-binding training

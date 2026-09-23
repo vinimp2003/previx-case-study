@@ -119,18 +119,3 @@ via Nodemailer for automated reminder emails, and a token-based public REST API 
 HR systems (e.g. Factorial) to sync employee census and training progress.
 **Infra:** Vercel (frontend, auto-deployed from `main`), Supabase Edge Functions + `pg_cron`
 for scheduled jobs (signature reminders, course-expiry resets, low-balance alerts).
-
----
-
-## Sample code (`sample-utils/`)
-
-The production codebase isn't public (client data and business logic), but this folder has
-a few small, self-contained utility modules pulled directly from it — generic code with no
-client- or business-specific logic:
-
-- `format.ts` / `error-utils.ts` / `fullscreen.ts` — formatting, typed error handling, and a
-  cross-browser Fullscreen API wrapper.
-- `openrouter_client.py` / `_common.py` — a small API client for an LLM provider (OpenRouter),
-  used in a separate content-automation tool for this platform.
-- `scriptManager.ts` — a cookie-consent manager (Google Analytics / Ads / Facebook Pixel)
-  implementing Google's Consent Mode.
